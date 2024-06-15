@@ -4,6 +4,8 @@ import { DataSource } from 'typeorm'
 import { CONFIG } from '../config/config'
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 import { User } from './entity/User.entity'
+import { Post } from './entity/Post.entity'
+import { Comment } from './entity/Comment.entity'
 
 const {
   POSTGRES_USER,
@@ -14,7 +16,7 @@ const {
   NODE_ENV
 } = CONFIG
 
-export const entities = [User]
+export const entities = [User, Post, Comment]
 
 export const DataSourceOptions: PostgresConnectionOptions = {
   type: 'postgres',

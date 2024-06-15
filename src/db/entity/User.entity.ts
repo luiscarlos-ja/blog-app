@@ -5,13 +5,11 @@ import {
   Column,
   Index,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToMany
 } from 'typeorm'
-
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  CUADRILLA = 'CUADRILLA'
-}
+import { Post } from './Post.entity'
+import { Comment } from './Comment.entity'
 
 @Entity('users', { schema: 'public' })
 @Index(['username', 'email'], { unique: true })
@@ -39,4 +37,10 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt!: Date
+
+  @OneToMany(() => Post, post => post.user)
+  posts!: Post[]
+
+  @OneToMany(() => Comment, comment => comment.user)
+  comments!: Comment[]
 }
