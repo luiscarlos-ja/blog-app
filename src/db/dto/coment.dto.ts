@@ -1,17 +1,10 @@
 import { Expose, Transform, Type } from 'class-transformer'
 import UserDTO from './user.dto'
-import CommentDTO from './coment.dto'
+import PostDTO from './post.dto'
 
-export default class PostDTO {
+export default class CommentDTO {
   @Expose()
   uuid!: string
-
-  @Expose()
-  @Transform(
-    ({ value }) =>
-      `${value.charAt(0).toUpperCase() as string} ${value.slice(1) as string}`
-  )
-  name!: string
 
   @Expose()
   @Transform(
@@ -33,6 +26,6 @@ export default class PostDTO {
   user!: UserDTO
 
   @Expose()
-  @Type(() => CommentDTO)
-  comments!: CommentDTO
+  @Type(() => PostDTO)
+  post!: PostDTO
 }

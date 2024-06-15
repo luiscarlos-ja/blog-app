@@ -25,11 +25,11 @@ const PostSchema = z.object({
   content
 })
 
-export type UserSchemaType = z.infer<typeof PostSchema>
+export type PostSchemaType = z.infer<typeof PostSchema>
 
 export const getPostSchema = PostSchema.partial().required({ uuid: true })
 export const getUserPostSchema = z.object({
-  uuid: z.string().uuid(),
+  userUuid: z.string().uuid(),
   postUuid: z.string().uuid()
 })
 

@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { AppDataSource } from '../db/data-source'
 import { User } from '../db/entity/User.entity'
-import { paginateSchema } from './paginate.schema'
 
 const uuid = z.string().uuid()
 const firstName = z
@@ -60,21 +59,6 @@ export type UserSchemaType = z.infer<typeof UserSchema>
 
 export const getUserSchema = UserSchema.partial().required({ uuid: true })
 
-export const getAllUsersSchema = z.object({
-  ...paginateSchema,
-  sortField: z
-    .enum([
-      'firstName',
-      'lastName',
-      'username',
-      'email',
-      'createdAt',
-      'updatedAt'
-    ])
-    .optional()
-    .default('createdAt')
-})
-
 export const createUserSchema = UserSchema.partial({ uuid: true })
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
     message: "Passwords don't match",
@@ -112,72 +96,6 @@ export const createUserSchema = UserSchema.partial({ uuid: true })
       } catch (error) {
         return false
       }
-    },
-    {
-      message: 'Email already exists',
-      path: ['email']
-    }
-  )
-
-export const updateUserSchema = UserSchema.partial()
-  .refine(
-    ({ password, passwordConfirm }) => {
-      if (password != null || passwordConfirm != null) {
-        return password === passwordConfirm
-      }
-      return true
-    },
-    {
-      message: "Passwords don't match",
-      path: ['passwordConfirm']
-    }
-  )
-  .refine(
-    ({ username }) => {
-      if (username != null) {
-        return /^[a-zA-Z0-9]+$/.test(username)
-      }
-      return true
-    },
-    {
-      message: 'Username must contain only letters and numbers',
-      path: ['username']
-    }
-  )
-  .refine(
-    async ({ username }) => {
-      if (username != null) {
-        try {
-          const userRepository = AppDataSource.getRepository(User)
-          const user = await userRepository.findOne({
-            where: { username }
-          })
-          return user === null
-        } catch (error) {
-          return false
-        }
-      }
-      return true
-    },
-    {
-      message: 'Username already exists',
-      path: ['username']
-    }
-  )
-  .refine(
-    async ({ email }) => {
-      if (email != null) {
-        try {
-          const userRepository = AppDataSource.getRepository(User)
-          const user = await userRepository.findOne({
-            where: { email }
-          })
-          return user === null
-        } catch (error) {
-          return false
-        }
-      }
-      return true
     },
     {
       message: 'Email already exists',
