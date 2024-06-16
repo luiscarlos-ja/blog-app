@@ -1,12 +1,12 @@
 import usePosts from "../../hooks/usePosts.hook";
 
 export default function Posts() {
-  const { posts, loading } = usePosts();
+  const { posts, isLoading } = usePosts();
 
   return (
     <section>
       <h1>Posts</h1>
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : (
         <ul>

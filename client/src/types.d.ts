@@ -37,9 +37,8 @@ export interface Meta {
   filterBy: string;
 }
 
-export interface PostContext {
+export interface PostReducer {
   posts: Post[];
-  setPosts: (posts: Post[]) => void;
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
+  isLoading: boolean;
+  getPosts: () => void;
 }

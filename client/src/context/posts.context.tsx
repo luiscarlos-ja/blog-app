@@ -1,26 +1,19 @@
-import { createContext, useEffect, useState } from "react";
-import { Post, PostContext } from "../types";
-import { CONFIG } from "../config";
+import { createContext, useEffect } from "react";
+import { PostReducer } from "../types";
+import { usePostsReducer } from "../hooks/usePostsReducer.hook";
 
-export const PostsContext = createContext<PostContext | undefined>(undefined);
+export const PostsContext = createContext<PostReducer | undefined>(undefined);
 
 export const PostsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { posts, isLoading, getPosts } = usePostsReducer();
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${CONFIG.API_URL}/posts`)
-      .then((response) => response.json())
-      .then((data) => {
-        const posts = data.data as Post[];
-        setPosts(posts);
-        setLoading(false);
-      });
+    getPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <PostsContext.Provider value={{ posts, setPosts, loading, setLoading }}>
+    <PostsContext.Provider value={{ posts, isLoading, getPosts }}>
       {children}
     </PostsContext.Provider>
   );
