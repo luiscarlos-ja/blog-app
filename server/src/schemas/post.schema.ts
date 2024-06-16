@@ -43,7 +43,7 @@ export const getAllPostsSchema = z.object({
 
 export const createUpdateUserPostSchema = PostSchema.partial({
   uuid: true
-}).refine(({ name }) => /^[a-zA-Z0-9]+$/.test(name), {
+}).refine(({ name }) => /^[a-zA-Z0-9 ]+$/.test(name), {
   message: 'Name must contain only letters and numbers',
   path: ['name']
 })

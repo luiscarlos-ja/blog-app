@@ -3,20 +3,6 @@ import { AppDataSource } from '../db/data-source'
 import { User } from '../db/entity/User.entity'
 
 const uuid = z.string().uuid()
-const firstName = z
-  .string()
-  .min(3, {
-    message: 'First Name must be longer than or equal to 3 characters'
-  })
-  .max(255, {
-    message: 'First Name must be shorter than or equal to 255 characters'
-  })
-const lastName = z
-  .string()
-  .min(3, { message: 'Last Name must be longer than or equal to 3 characters' })
-  .max(255, {
-    message: 'Last Name must be shorter than or equal to 255 characters'
-  })
 const username = z
   .string()
   .min(3, { message: 'Username must be longer than or equal to 3 characters' })
@@ -47,8 +33,6 @@ const passwordConfirm = z
 
 const UserSchema = z.object({
   uuid,
-  firstName,
-  lastName,
   username,
   email,
   password,
@@ -59,7 +43,9 @@ export type UserSchemaType = z.infer<typeof UserSchema>
 
 export const getUserSchema = UserSchema.partial().required({ uuid: true })
 
-export const createUserSchema = UserSchema.partial({ uuid: true })
+export const createUserSchema = UserSchema.partial({
+  uuid: true
+})
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
     message: "Passwords don't match",
     path: ['passwordConfirm']

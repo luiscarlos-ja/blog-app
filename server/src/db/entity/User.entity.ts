@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -25,12 +24,6 @@ export class User {
 
   @Column({ nullable: false })
   password!: string
-
-  @Column()
-  firstName!: string
-
-  @Column()
-  lastName!: string
 
   @CreateDateColumn()
   createdAt!: Date

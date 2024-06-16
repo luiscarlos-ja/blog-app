@@ -17,8 +17,6 @@ export default class UserService {
     const encryptedPassword = await encryptPassword(user.password)
     const newUser = {
       ...user,
-      firstName: user.firstName.toLowerCase().trim(),
-      lastName: user.lastName.toLowerCase().trim(),
       username: user.username.toLowerCase().trim(),
       email: user.email.toLowerCase().trim(),
       password: encryptedPassword
