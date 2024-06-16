@@ -13,6 +13,11 @@ export interface Post {
   user: User;
 }
 
+export interface PostCreate {
+  name: string;
+  content: string;
+}
+
 export interface User {
   uuid: string;
   username: string;
@@ -41,4 +46,7 @@ export interface PostReducer {
   posts: Post[];
   isLoading: boolean;
   getPosts: () => void;
+  createPost: (formData: FormData) => void;
+  deletePost: (uuid: string) => void;
+  editPost: (uuid: string, formData: FormData) => Promise<void>;
 }

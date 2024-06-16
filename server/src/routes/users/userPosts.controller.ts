@@ -3,8 +3,10 @@ import { Request, Response, NextFunction } from 'express'
 import { HTTPStatusCode } from '../../constants/http'
 import UserPostService from '../../services/userPost.service'
 import PostDTO from '../../db/dto/post.dto'
+import PostService from '../../services/post.service'
 
 const userPostService = new UserPostService()
+const postService = new PostService()
 
 export async function httpCreateUserPost(
   req: Request,
@@ -15,7 +17,10 @@ export async function httpCreateUserPost(
     const { uuid } = req.params
     const post = req.body
     const postCreated = await userPostService.createUserPost(uuid, post)
-    const postCreatedDTO = plainToInstance(PostDTO, postCreated.generatedMaps, {
+    const postWithUser = await postService.getPostById(
+      postCreated.identifiers[0].uuid
+    )
+    const postCreatedDTO = plainToInstance(PostDTO, postWithUser, {
       excludeExtraneousValues: true
     })
     res.status(HTTPStatusCode.Created).json(postCreatedDTO)
@@ -37,7 +42,7 @@ export async function httpUpdateUserPost(
       postUuid,
       post
     )
-    const postUpdatedDTO = plainToInstance(PostDTO, postUpdated.generatedMaps, {
+    const postUpdatedDTO = plainToInstance(PostDTO, postUpdated.raw, {
       excludeExtraneousValues: true
     })
     res.status(HTTPStatusCode.Ok).json(postUpdatedDTO)

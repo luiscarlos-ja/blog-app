@@ -1,16 +1,31 @@
-import { DeleteResult, InsertResult, UpdateResult } from 'typeorm'
+import {
+  DeleteResult,
+  EntityNotFoundError,
+  InsertResult,
+  UpdateResult
+} from 'typeorm'
 import { AppDataSource } from '../db/data-source'
 import { Post } from '../db/entity/Post.entity'
 
 export default class UserPostService {
   async createUserPost(userUuid: string, post: Post): Promise<InsertResult> {
+    const user = await AppDataSource.createQueryBuilder()
+      .select('user')
+      .from('User', 'user')
+      .where('uuid = :userUuid', { userUuid })
+      .getOne()
+
+    if (!user) {
+      throw new EntityNotFoundError('User not found', userUuid)
+    }
+
     return await AppDataSource.createQueryBuilder()
       .insert()
       .into(Post)
       .values({
         name: post.name.toLowerCase().trim(),
         content: post.content,
-        user: { uuid: userUuid }
+        user: user
       })
       .returning('*')
       .execute()

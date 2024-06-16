@@ -1,32 +1,25 @@
 import usePosts from "../../hooks/usePosts.hook";
+import { PostHeader } from "../../components/post-header/post-header.component";
+import { PostBody } from "../../components/post-body/post-body-component";
 
 export default function Posts() {
   const { posts, isLoading } = usePosts();
 
   return (
     <section>
-      <h1>Posts</h1>
+      <PostHeader />
       {isLoading ? (
-        <p>Loading...</p>
+        <h1>Loading...</h1>
       ) : (
-        <ul>
-          {posts.map((post) => (
-            <li key={post.uuid}>
-              <div>
-                <h2>{post.name}</h2>
-                <small>@{post.user.username}</small>
-              </div>
-              <small>
-                created at {new Date(post.createdAt).toLocaleDateString()}
-              </small>
-              <p>{post.content}</p>
-              <div>
-                <button>Edit</button>
-                <button>Delete</button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul>
+            {posts.map((post) => (
+              <li key={post.uuid}>
+                <PostBody post={post} />
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </section>
   );

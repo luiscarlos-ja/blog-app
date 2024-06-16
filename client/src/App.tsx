@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Navigation from "./components/Navigation/navigation.components";
+import Navigation from "./components/navigation/navigation.components";
 import Posts from "./routes/posts/posts.component";
 import { PostsProvider } from "./context/posts.context";
 

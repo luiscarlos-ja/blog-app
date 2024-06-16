@@ -1,4 +1,4 @@
-import { InsertResult } from 'typeorm'
+import { EntityNotFoundError, InsertResult } from 'typeorm'
 import { AppDataSource } from '../db/data-source'
 import { User } from '../db/entity/User.entity'
 import { encryptPassword } from '../utils/encrypt.helper'
@@ -6,11 +6,16 @@ import { UserSchemaType } from '../schemas/user.schema'
 
 export default class UserService {
   async getUserById(uuid: string): Promise<User> {
-    const userRepository = AppDataSource.getRepository(User)
-    return await userRepository
+    const user = await AppDataSource.getRepository(User)
       .createQueryBuilder('user')
       .where('uuid = :uuid', { uuid })
-      .getOneOrFail()
+      .getOne()
+
+    if (!user) {
+      throw new EntityNotFoundError('User not found', uuid)
+    }
+
+    return user
   }
 
   async createUser(user: UserSchemaType): Promise<InsertResult> {

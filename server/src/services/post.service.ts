@@ -1,3 +1,4 @@
+import { EntityNotFoundError } from 'typeorm'
 import { AppDataSource } from '../db/data-source'
 import { Post } from '../db/entity/Post.entity'
 
@@ -21,5 +22,19 @@ export default class PostService {
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount()
+  }
+
+  async getPostById(uuid: string): Promise<Post> {
+    const post = await AppDataSource.getRepository(Post)
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .where('post.uuid = :uuid', { uuid })
+      .getOne()
+
+    if (!post) {
+      throw new EntityNotFoundError('Post not found', uuid)
+    }
+
+    return post
   }
 }

@@ -21,15 +21,22 @@ type Action =
   | {
       type: typeof POSTS_ACTION_TYPES.SET_IS_LOADING;
       payload: { isLoading: boolean };
+    }
+  | {
+      type: typeof POSTS_ACTION_TYPES.SET_FETCH_URL;
+      payload: { fetchUrl: string | null };
     };
 
 export function postsReducer(state = intialState, action: Action) {
   if (action.type === "posts/SET_POSTS") {
     const { posts, fetchUrl } = action.payload;
-    return { ...state, fetchUrl, posts: [...state.posts, ...posts] };
+    return { ...state, fetchUrl, posts: posts };
   } else if (action.type === "posts/SET_IS_LOADING") {
     const { isLoading } = action.payload;
     return { ...state, isLoading };
+  } else if (action.type === "posts/SET_FETCH_URL") {
+    const { fetchUrl } = action.payload;
+    return { ...state, fetchUrl };
   } else {
     return state;
   }
