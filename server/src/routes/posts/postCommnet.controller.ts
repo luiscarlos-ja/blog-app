@@ -58,9 +58,10 @@ export async function httpCreatePostComment(
   try {
     const { uuid } = req.params
     const comment = req.body
+    const authUser = (req as any).authUser
     const commentCreated = await postCommentService.createPostComment(
       uuid,
-      '94b660e2-e0f7-4419-8eee-3033ba6010c1',
+      authUser.uuid,
       comment
     )
     const commentWithRelations = await commentService.getCommentById(
