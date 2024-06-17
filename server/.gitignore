@@ -9,3 +9,4 @@ postgres-data/
 .env
 cert.pem
 key.pem
+cert.crt

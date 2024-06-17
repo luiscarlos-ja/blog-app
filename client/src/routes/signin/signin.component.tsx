@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { GLOBAL } from "../../consts";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth.hook";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
   const [error, setError] = useState({
     username: [],
     password: [],
@@ -21,20 +23,20 @@ export default function SignIn() {
     await fetch(`${GLOBAL.API_URL}/auth/signin`, {
       method: "POST",
       body: formData,
+      credentials: "include",
+      mode: "cors",
     })
-      .then(async (response) => {
-        if (!response.ok) {
-          if (response.status === 422) {
-            const responseError = await response.json();
-            const errorMessages = JSON.parse(responseError.message);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode) {
+          if (data.statusCode === 422) {
+            const errorMessages = JSON.parse(data.message);
             setError(errorMessages.fieldErrors);
           }
         } else {
+          signIn(data);
           navigate("/");
         }
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
 
@@ -49,15 +51,15 @@ export default function SignIn() {
       </form>
       {error.username && (
         <p>
-          {error.username.map((err) => (
-            <span>{err}</span>
+          {error.username.map((err, idx) => (
+            <span key={idx}>{err}</span>
           ))}
         </p>
       )}
       {error.password && (
         <p>
-          {error.password.map((err) => (
-            <span>{err}</span>
+          {error.password.map((err, idx) => (
+            <span key={idx}>{err}</span>
           ))}
         </p>
       )}

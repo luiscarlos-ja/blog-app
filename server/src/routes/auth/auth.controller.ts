@@ -34,12 +34,15 @@ export async function httpSignIn(
     if (sigInResult === null) {
       res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
     } else {
+      const userDTO = plainToInstance(UserDTO, sigInResult.user, {
+        excludeExtraneousValues: true
+      })
       res.cookie('token', sigInResult.token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none'
       })
-      res.status(HTTPStatusCode.Ok).json(sigInResult.user)
+      res.status(HTTPStatusCode.Ok).json(userDTO)
     }
   } catch (error) {
     next(error)

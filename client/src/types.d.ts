@@ -65,3 +65,9 @@ export interface PostReducer {
   deletePost: (uuid: string) => void;
   editPost: (uuid: string, formData: FormData) => Promise<void>;
 }
+
+export interface AuthContextType {
+  authUser: User | null;
+  signIn: (user: User) => void;
+  signOut: () => void;
+}

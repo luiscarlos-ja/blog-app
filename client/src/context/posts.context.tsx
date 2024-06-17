@@ -4,7 +4,7 @@ import { usePostsReducer } from "../hooks/usePostsReducer.hook";
 
 export const PostsContext = createContext<PostReducer | undefined>(undefined);
 
-export const PostsProvider = ({ children }: { children: React.ReactNode }) => {
+export function PostsProvider({ children }: { children: React.ReactNode }) {
   const { posts, isLoading, getPosts, createPost, deletePost, editPost } =
     usePostsReducer();
 
@@ -20,4 +20,4 @@ export const PostsProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </PostsContext.Provider>
   );
-};
+}

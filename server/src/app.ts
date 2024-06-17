@@ -17,7 +17,7 @@ const app = express()
 
 app.use(helmet())
 
-const whitelist = ['https://localhost:8000', 'http://localhost:5173']
+const whitelist = ['https://localhost:8000', 'https://localhost:5173']
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -26,7 +26,8 @@ app.use(
       } else {
         callback(new Error('Not allowed by CORS'))
       }
-    }
+    },
+    credentials: true
   })
 )
 app.use(morgan('combined'))

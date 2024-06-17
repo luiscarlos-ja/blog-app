@@ -15,14 +15,15 @@ export const authMiddleware = (
   const token = req.cookies.token
 
   if (!token) {
-    res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
+    return res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
   }
 
   try {
     const decoded = jwt.verify(token, CONFIG.JWT_TOKEN)
     ;(req as AuthRequest).authUser = decoded
     next()
+    return // Add a return statement here
   } catch (error) {
-    res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
+    return res.status(HTTPStatusCode.Unauthorized).json('Unauthorized') // Add a return statement here
   }
 }

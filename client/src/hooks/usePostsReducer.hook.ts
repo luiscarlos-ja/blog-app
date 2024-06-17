@@ -11,9 +11,11 @@ export const usePostsReducer = () => {
 
   const getPosts = async () => {
     if (fetchUrl === null) return;
-
     dispatch({ type: "posts/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(fetchUrl, { credentials: "include" })
+    fetch(fetchUrl, {
+      credentials: "include",
+      mode: "cors",
+    })
       .then((response) => response.json())
       .then((data) => {
         const fetchedPosts = data.data as Post[];
