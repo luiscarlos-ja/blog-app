@@ -49,7 +49,7 @@ export function PostCommentsBody({
   return (
     <>
       <div>
-        <h3>{comment.user.username}</h3>
+        <h3>@{comment.user.username}</h3>
         <small>{new Date(comment.createdAt).toLocaleString()}</small>
       </div>
       {isEditing ? (

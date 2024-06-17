@@ -8,7 +8,7 @@ export const useComments = ({ post }: { post: Post }) => {
     commentsReducer,
     {
       ...intialState,
-      fetchUrl: `${GLOBAL.API_URL}/posts/${post.uuid}/comments`,
+      fetchUrl: `${GLOBAL.API_URL}/posts/${post.uuid}/comment`,
     }
   );
   const getPostComments = async (): Promise<void> => {
@@ -38,8 +38,7 @@ export const useComments = ({ post }: { post: Post }) => {
   };
 
   const createPostComment = async (formData: FormData): Promise<void> => {
-    dispatch({ type: "comments/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comments`, {
+    fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comment`, {
       method: "POST",
       body: formData,
     })
@@ -52,12 +51,6 @@ export const useComments = ({ post }: { post: Post }) => {
           payload: { comments: newComments, fetchUrl: intialState.fetchUrl },
         });
       })
-      .finally(() => {
-        dispatch({
-          type: "comments/SET_IS_LOADING",
-          payload: { isLoading: false },
-        });
-      })
       .catch((error) => {
         console.error("Error creating comment", error);
       });
@@ -67,14 +60,13 @@ export const useComments = ({ post }: { post: Post }) => {
     commentId: string,
     formData: FormData
   ): Promise<void> => {
-    dispatch({ type: "comments/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comments/${commentId}`, {
+    fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comment/${commentId}`, {
       method: "PATCH",
       body: formData,
     })
       .then((data) => data.json())
       .then((response) => {
-        const updatedComment = response as Comment;
+        const updatedComment = response[0] as Comment;
         const newComments = comments.map((comment) => {
           if (comment.uuid === updatedComment.uuid) {
             return { ...comment, content: updatedComment.content };
@@ -87,20 +79,13 @@ export const useComments = ({ post }: { post: Post }) => {
           payload: { comments: newComments, fetchUrl: fetchUrl },
         });
       })
-      .finally(() => {
-        dispatch({
-          type: "comments/SET_IS_LOADING",
-          payload: { isLoading: false },
-        });
-      })
       .catch((error) => {
         console.error("Error updating comment", error);
       });
   };
 
   const deletePostComment = async (commentId: string) => {
-    dispatch({ type: "comments/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comments/${commentId}`, {
+    fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comment/${commentId}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -110,12 +95,6 @@ export const useComments = ({ post }: { post: Post }) => {
         dispatch({
           type: "comments/SET_COMMENTS",
           payload: { comments: newComments, fetchUrl: intialState.fetchUrl },
-        });
-      })
-      .finally(() => {
-        dispatch({
-          type: "comments/SET_IS_LOADING",
-          payload: { isLoading: false },
         });
       })
       .catch((error) => {

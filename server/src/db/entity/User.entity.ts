@@ -11,16 +11,13 @@ import { Post } from './Post.entity'
 import { Comment } from './Comment.entity'
 
 @Entity('users', { schema: 'public' })
-@Index(['username', 'email'], { unique: true })
+@Index(['username'], { unique: true })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   uuid!: string
 
   @Column({ nullable: false })
   username!: string
-
-  @Column({ nullable: false })
-  email!: string
 
   @Column({ nullable: false })
   password!: string

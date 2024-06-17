@@ -23,7 +23,6 @@ export default class UserService {
     const newUser = {
       ...user,
       username: user.username.toLowerCase().trim(),
-      email: user.email.toLowerCase().trim(),
       password: encryptedPassword
     }
     return await AppDataSource.createQueryBuilder()

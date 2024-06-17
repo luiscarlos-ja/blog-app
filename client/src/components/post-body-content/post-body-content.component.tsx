@@ -70,9 +70,7 @@ export function PostBodyContent({
           <h2>{post.name}</h2>
         )}
         <small>@{post.user.username}</small>
-        <small>
-          created at {new Date(post.createdAt).toLocaleDateString()}
-        </small>
+        <small>created at {new Date(post.createdAt).toLocaleString()}</small>
         {showEditPost ? (
           <textarea
             name="content"

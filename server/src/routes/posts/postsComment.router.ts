@@ -9,6 +9,7 @@ import {
 import {
   httpCreatePostComment,
   httpDeletePostComment,
+  httpGetAllPostComments,
   httpUpdatePostComment
 } from './postCommnet.controller'
 
@@ -16,13 +17,19 @@ const upload = multer()
 
 const postsCommentRouter = express.Router()
 
+postsCommentRouter.get(
+  '/:uuid/comment',
+  validatorRequestHandler(getCommentSchema, 'params'),
+  httpGetAllPostComments
+)
+
 postsCommentRouter.post(
   '/:uuid/comment',
   upload.none(),
   validatorRequestHandler(getCommentSchema, 'params'),
   httpCreatePostComment
 )
-postsCommentRouter.put(
+postsCommentRouter.patch(
   '/:postUuid/comment/:commentUuid',
   upload.none(),
   validatorRequestHandler(getPostCommentSchema, 'params'),

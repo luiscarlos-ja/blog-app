@@ -3,8 +3,28 @@ import { Comment } from '../db/entity/Comment.entity'
 import { AppDataSource } from '../db/data-source'
 
 export default class PostCommentService {
+  async getAllPostComments(
+    uuid: string,
+    page: number,
+    limit: number,
+    sortField: string,
+    sortOrder: 'ASC' | 'DESC',
+    _filterBy: string
+  ): Promise<[Comment[], number]> {
+    return await AppDataSource.getRepository(Comment)
+      .createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.user', 'user')
+      .leftJoinAndSelect('comment.post', 'post')
+      .where('comment.post.uuid = :uuid', { uuid })
+      .orderBy(`comment.${sortField}`, sortOrder)
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount()
+  }
+
   async createPostComment(
     postUuid: string,
+    userUuid: string,
     comment: Comment
   ): Promise<InsertResult> {
     return await AppDataSource.createQueryBuilder()
@@ -12,7 +32,8 @@ export default class PostCommentService {
       .into(Comment)
       .values({
         content: comment.content.toLowerCase().trim(),
-        post: { uuid: postUuid }
+        post: { uuid: postUuid },
+        user: { uuid: userUuid }
       })
       .returning('*')
       .execute()

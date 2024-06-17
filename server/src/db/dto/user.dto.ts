@@ -7,9 +7,6 @@ export default class UserDTO {
   @Expose()
   username!: string
 
-  @Expose()
-  email!: string
-
   @Exclude() password!: string
 
   @Expose()

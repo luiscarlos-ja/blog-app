@@ -9,7 +9,7 @@ export default class CommentDTO {
   @Expose()
   @Transform(
     ({ value }) =>
-      `${value.charAt(0).toUpperCase() as string} ${value.slice(1) as string}`
+      `${value.charAt(0).toUpperCase() as string}${value.slice(1) as string}`
   )
   content!: string
 

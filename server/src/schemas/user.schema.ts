@@ -9,13 +9,6 @@ const username = z
   .max(30, {
     message: 'Username must be shorter than or equal to 30 characters'
   })
-const email = z
-  .string()
-  .email()
-  .min(8, { message: 'Email must be longer than or equal to 8 characters' })
-  .max(255, {
-    message: 'Email must be shorter than or equal to 255 characters'
-  })
 const password = z
   .string()
   .min(5, { message: 'Password must be longer than or equal to 5 characters' })
@@ -34,7 +27,6 @@ const passwordConfirm = z
 const UserSchema = z.object({
   uuid,
   username,
-  email,
   password,
   passwordConfirm
 })
@@ -69,22 +61,5 @@ export const createUserSchema = UserSchema.partial({
     {
       message: 'Username already exists',
       path: ['username']
-    }
-  )
-  .refine(
-    async ({ email }) => {
-      try {
-        const userRepository = AppDataSource.getRepository(User)
-        const user = await userRepository.findOne({
-          where: { email }
-        })
-        return user === null
-      } catch (error) {
-        return false
-      }
-    },
-    {
-      message: 'Email already exists',
-      path: ['email']
     }
   )
