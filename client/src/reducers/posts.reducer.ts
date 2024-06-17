@@ -1,13 +1,13 @@
 import { GLOBAL, POSTS_ACTION_TYPES } from "../consts";
 import { Post } from "../types";
 
-export interface PostsState {
+export interface PostsReducerState {
   posts: Post[];
   isLoading: boolean;
   fetchUrl: string | null;
 }
 
-export const intialState: PostsState = {
+export const intialState: PostsReducerState = {
   posts: [],
   isLoading: false,
   fetchUrl: `${GLOBAL.API_URL}/posts`,

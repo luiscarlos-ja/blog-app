@@ -13,6 +13,21 @@ export interface Post {
   user: User;
 }
 
+export interface Comments {
+  data: Comment[];
+  meta: Meta;
+  links: Links;
+}
+
+export interface Comment {
+  uuid: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: User;
+  post: Post;
+}
+
 export interface PostCreate {
   name: string;
   content: string;

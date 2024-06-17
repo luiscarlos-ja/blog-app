@@ -7,3 +7,9 @@ export const POSTS_ACTION_TYPES = {
   SET_IS_LOADING: "posts/SET_IS_LOADING",
   SET_FETCH_URL: "posts/SET_FETCH_URL",
 } as const;
+
+export const COMMENTS_ACTION_TYPES = {
+  SET_COMMENTS: "comments/SET_COMMENTS",
+  SET_IS_LOADING: "comments/SET_IS_LOADING",
+  SET_FETCH_URL: "comments/SET_FETCH_URL",
+} as const;
