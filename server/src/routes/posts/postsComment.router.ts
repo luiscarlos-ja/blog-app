@@ -12,7 +12,6 @@ import {
   httpGetAllPostComments,
   httpUpdatePostComment
 } from './postCommnet.controller'
-import { authMiddleware } from '../../middlewares/auth.middleware'
 
 const upload = multer()
 
@@ -26,14 +25,12 @@ postsCommentRouter.get(
 
 postsCommentRouter.post(
   '/:uuid/comment',
-  authMiddleware,
   upload.none(),
   validatorRequestHandler(getCommentSchema, 'params'),
   httpCreatePostComment
 )
 postsCommentRouter.patch(
   '/:postUuid/comment/:commentUuid',
-  authMiddleware,
   upload.none(),
   validatorRequestHandler(getPostCommentSchema, 'params'),
   validatorRequestHandler(updatePostCommentSchema, 'body'),
@@ -41,7 +38,6 @@ postsCommentRouter.patch(
 )
 postsCommentRouter.delete(
   '/:postUuid/comment/:commentUuid',
-  authMiddleware,
   upload.none(),
   validatorRequestHandler(getPostCommentSchema, 'params'),
   httpDeletePostComment

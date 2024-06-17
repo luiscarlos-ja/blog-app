@@ -11,7 +11,10 @@ export default class AuthService {
     return await new UserService().createUser(user)
   }
 
-  async signIn(username: string, password: string): Promise<string | null> {
+  async signIn(
+    username: string,
+    password: string
+  ): Promise<{ token: string; user: User } | null> {
     const user = await AppDataSource.getRepository(User).findOneOrFail({
       where: { username }
     })
@@ -19,6 +22,11 @@ export default class AuthService {
       return null
     }
 
-    return jwt.sign({ uuid: user.uuid }, CONFIG.JWT_TOKEN, { expiresIn: '1h' })
+    return {
+      token: jwt.sign({ uuid: user.uuid }, CONFIG.JWT_TOKEN, {
+        expiresIn: '1h'
+      }),
+      user
+    }
   }
 }

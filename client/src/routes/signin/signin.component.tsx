@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { GLOBAL } from "../../consts";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const [error, setError] = useState({
     username: [],
     password: [],
@@ -27,6 +29,8 @@ export default function SignIn() {
             const errorMessages = JSON.parse(responseError.message);
             setError(errorMessages.fieldErrors);
           }
+        } else {
+          navigate("/");
         }
       })
       .finally(() => {

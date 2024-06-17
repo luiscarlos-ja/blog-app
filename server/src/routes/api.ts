@@ -11,7 +11,7 @@ const api = express.Router()
 api.use('/auth', authRouter)
 api.use('/users', authMiddleware, usersRouter)
 api.use('/users', authMiddleware, userPostRouter)
-api.use('/posts', postsRouter)
-api.use('/posts', postsCommentRouter)
+api.use('/posts', authMiddleware, postsRouter)
+api.use('/posts', authMiddleware, postsCommentRouter)
 
 export default api

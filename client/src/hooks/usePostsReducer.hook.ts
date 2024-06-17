@@ -13,7 +13,7 @@ export const usePostsReducer = () => {
     if (fetchUrl === null) return;
 
     dispatch({ type: "posts/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(fetchUrl)
+    fetch(fetchUrl, { credentials: "include" })
       .then((response) => response.json())
       .then((data) => {
         const fetchedPosts = data.data as Post[];
@@ -40,6 +40,7 @@ export const usePostsReducer = () => {
     fetch(`${GLOBAL.API_URL}/users/94b660e2-e0f7-4419-8eee-3033ba6010c1/post`, {
       method: "POST",
       body: formData,
+      credentials: "include",
     })
       .then((data) => data.json())
       .then((response) => {
@@ -67,6 +68,7 @@ export const usePostsReducer = () => {
       {
         method: "PATCH",
         body: formData,
+        credentials: "include",
       }
     )
       .then((data) => data.json())
@@ -99,6 +101,7 @@ export const usePostsReducer = () => {
       `${GLOBAL.API_URL}/users/94b660e2-e0f7-4419-8eee-3033ba6010c1/post/${uuid}`,
       {
         method: "DELETE",
+        credentials: "include",
       }
     )
       .then(() => {

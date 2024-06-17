@@ -30,16 +30,16 @@ export async function httpSignIn(
 ) {
   try {
     const { username, password } = req.body
-    const token = await authService.signIn(username, password)
-    if (token === null) {
+    const sigInResult = await authService.signIn(username, password)
+    if (sigInResult === null) {
       res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
     } else {
-      res.cookie('token', token, {
+      res.cookie('token', sigInResult.token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none'
       })
-      res.status(HTTPStatusCode.Ok).json('Logged in successfully')
+      res.status(HTTPStatusCode.Ok).json(sigInResult.user)
     }
   } catch (error) {
     next(error)
