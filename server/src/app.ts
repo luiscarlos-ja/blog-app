@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-
+import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 
 import api from './routes/api'
@@ -33,6 +33,7 @@ app.use(morgan('combined'))
 
 app.use(rateLimiterMiddleware)
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/api/v1', api)
 
