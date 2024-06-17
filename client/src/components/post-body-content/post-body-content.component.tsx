@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Post } from "../../types";
 import usePosts from "../../hooks/usePosts.hook";
+import useAuth from "../../hooks/useAuth.hook";
 
 export function PostBodyContent({
   post,
@@ -13,6 +14,7 @@ export function PostBodyContent({
   const [isloading, setIsLoading] = useState(false);
   const [editedPost, setEditedPost] = useState<Post>(post);
   const { deletePost, editPost } = usePosts();
+  const { authUser } = useAuth();
 
   if (isloading) {
     return <p>Loading...</p>;
@@ -83,18 +85,20 @@ export function PostBodyContent({
         )}
       </div>
       <div>
-        {showEditPost ? (
-          <>
-            <button onClick={handleClickEditPost}>Cancel</button>
-            <button onClick={handleClickSaveEditPost}>Save</button>
-          </>
-        ) : (
-          <>
-            <button onClick={handleToggleShowComments}>Comments</button>
-            <button onClick={handleClickEditPost}>Edit</button>
-            <button onClick={handleClickDeletePost(post.uuid)}>Delete</button>
-          </>
-        )}
+        <button onClick={handleToggleShowComments}>Comments</button>
+        {authUser &&
+          authUser.uuid === post.user.uuid &&
+          (showEditPost ? (
+            <>
+              <button onClick={handleClickEditPost}>Cancel</button>
+              <button onClick={handleClickSaveEditPost}>Save</button>
+            </>
+          ) : (
+            <>
+              <button onClick={handleClickEditPost}>Edit</button>
+              <button onClick={handleClickDeletePost(post.uuid)}>Delete</button>
+            </>
+          ))}
       </div>
     </>
   );

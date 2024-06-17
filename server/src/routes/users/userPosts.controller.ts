@@ -16,6 +16,10 @@ export async function httpCreateUserPost(
   try {
     const { uuid } = req.params
     const post = req.body
+    const authUser = (req as any).authUser
+    if (uuid !== authUser.uuid) {
+      res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
+    }
     const postCreated = await userPostService.createUserPost(uuid, post)
     const postWithUser = await postService.getPostById(
       postCreated.identifiers[0].uuid
@@ -36,6 +40,10 @@ export async function httpUpdateUserPost(
 ): Promise<void> {
   try {
     const { userUuid, postUuid } = req.params
+    const authUser = (req as any).authUser
+    if (userUuid !== authUser.uuid) {
+      res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
+    }
     const post = req.body
     const postUpdated = await userPostService.updateUserPost(
       userUuid,
@@ -58,6 +66,10 @@ export async function httpDeleteUserPost(
 ): Promise<void> {
   try {
     const { userUuid, postUuid } = req.params
+    const authUser = (req as any).authUser
+    if (userUuid !== authUser.uuid) {
+      res.status(HTTPStatusCode.Unauthorized).json('Unauthorized')
+    }
     await userPostService.deleteUserPost(userUuid, postUuid)
     res.status(HTTPStatusCode.NoContent).send()
   } catch (error) {

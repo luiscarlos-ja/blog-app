@@ -23,8 +23,6 @@ export default function SignIn() {
     await fetch(`${GLOBAL.API_URL}/auth/signin`, {
       method: "POST",
       body: formData,
-      credentials: "include",
-      mode: "cors",
     })
       .then((response) => response.json())
       .then((data) => {

@@ -42,6 +42,7 @@ export default class PostCommentService {
   async updatePostComment(
     postUuid: string,
     commentUuid: string,
+    userUuid: string,
     comment: Comment
   ): Promise<UpdateResult> {
     if (Object.prototype.hasOwnProperty.call(Object(comment), 'content')) {
@@ -50,25 +51,34 @@ export default class PostCommentService {
     return await AppDataSource.createQueryBuilder()
       .update(Comment)
       .set(comment)
-      .where('uuid = :commentUuid AND post.uuid = :postUuid', {
-        commentUuid,
-        postUuid
-      })
+      .where(
+        'uuid = :commentUuid AND post.uuid = :postUuid AND user.uuid = :userUuid',
+        {
+          commentUuid,
+          postUuid,
+          userUuid
+        }
+      )
       .returning('*')
       .execute()
   }
 
   async deletePostComment(
     postUuid: string,
-    commentUuid: string
+    commentUuid: string,
+    userUuid: string
   ): Promise<DeleteResult> {
     return await AppDataSource.createQueryBuilder()
       .delete()
       .from(Comment)
-      .where('uuid = :commentUuid AND post.uuid = :postUuid', {
-        commentUuid,
-        postUuid
-      })
+      .where(
+        'uuid = :commentUuid AND post.uuid = :postUuid AND user.uuid = :userUuid',
+        {
+          commentUuid,
+          postUuid,
+          userUuid
+        }
+      )
       .execute()
   }
 }

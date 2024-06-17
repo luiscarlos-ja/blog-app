@@ -15,7 +15,7 @@ export const useComments = ({ post }: { post: Post }) => {
     if (fetchUrl === null) return;
 
     dispatch({ type: "comments/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(fetchUrl, { credentials: "include" })
+    fetch(fetchUrl)
       .then((response) => response.json())
       .then((data) => {
         const fetchedComments = data.data as Comment[];
@@ -41,7 +41,6 @@ export const useComments = ({ post }: { post: Post }) => {
     fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comment`, {
       method: "POST",
       body: formData,
-      credentials: "include",
     })
       .then((data) => data.json())
       .then((response) => {
@@ -64,7 +63,6 @@ export const useComments = ({ post }: { post: Post }) => {
     fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comment/${commentId}`, {
       method: "PATCH",
       body: formData,
-      credentials: "include",
     })
       .then((data) => data.json())
       .then((response) => {
@@ -89,7 +87,6 @@ export const useComments = ({ post }: { post: Post }) => {
   const deletePostComment = async (commentId: string) => {
     fetch(`${GLOBAL.API_URL}/posts/${post.uuid}/comment/${commentId}`, {
       method: "DELETE",
-      credentials: "include",
     })
       .then(() => {
         const newComments = comments.filter(

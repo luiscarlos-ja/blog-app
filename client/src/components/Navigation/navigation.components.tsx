@@ -12,8 +12,6 @@ export default function Navigation() {
     setIsLoading(true);
     await fetch(`${GLOBAL.API_URL}/auth/signout`, {
       method: "POST",
-      credentials: "include",
-      mode: "cors",
     })
       .then((response) => response.json())
       .then(() => {
@@ -33,11 +31,11 @@ export default function Navigation() {
       <nav>
         <ul>
           {isLoading && <li>Loading...</li>}
-          <li>
-            <Link to="/">Posts</Link>
-          </li>
           {authUser ? (
             <>
+              <li>
+                <Link to="/">Posts</Link>
+              </li>
               <li>
                 <span>@{authUser.username}</span>
               </li>

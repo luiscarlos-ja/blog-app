@@ -16,6 +16,7 @@ export function PostCommentsAdd({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     await createPostComment(formData);
+    setShowForm(false);
   };
 
   return (

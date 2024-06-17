@@ -14,7 +14,7 @@ export function PostHeader() {
     <div>
       <h1>Posts</h1>
       {!isLoading && <button onClick={handleClickAddPost}>Add Post</button>}
-      {showAddPost && <PostAdd />}
+      {showAddPost && <PostAdd setShowAddPost={setShowAddPost} />}
     </div>
   );
 }

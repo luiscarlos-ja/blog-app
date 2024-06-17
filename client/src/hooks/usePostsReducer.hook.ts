@@ -2,8 +2,10 @@ import { useReducer } from "react";
 import { postsReducer, intialState } from "../reducers/posts.reducer";
 import { Links, Post } from "../types";
 import { GLOBAL } from "../consts";
+import useAuth from "./useAuth.hook";
 
 export const usePostsReducer = () => {
+  const { authUser } = useAuth();
   const [{ fetchUrl, isLoading, posts }, dispatch] = useReducer(
     postsReducer,
     intialState
@@ -12,10 +14,7 @@ export const usePostsReducer = () => {
   const getPosts = async () => {
     if (fetchUrl === null) return;
     dispatch({ type: "posts/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(fetchUrl, {
-      credentials: "include",
-      mode: "cors",
-    })
+    fetch(fetchUrl)
       .then((response) => response.json())
       .then((data) => {
         const fetchedPosts = data.data as Post[];
@@ -39,7 +38,7 @@ export const usePostsReducer = () => {
 
   const createPost = async (formData: FormData) => {
     dispatch({ type: "posts/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(`${GLOBAL.API_URL}/users/94b660e2-e0f7-4419-8eee-3033ba6010c1/post`, {
+    fetch(`${GLOBAL.API_URL}/users/${authUser?.uuid}/post`, {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -65,14 +64,11 @@ export const usePostsReducer = () => {
   };
 
   const editPost = async (uuid: string, formData: FormData) => {
-    fetch(
-      `${GLOBAL.API_URL}/users/94b660e2-e0f7-4419-8eee-3033ba6010c1/post/${uuid}`,
-      {
-        method: "PATCH",
-        body: formData,
-        credentials: "include",
-      }
-    )
+    fetch(`${GLOBAL.API_URL}/users/${authUser?.uuid}/post/${uuid}`, {
+      method: "PATCH",
+      body: formData,
+      credentials: "include",
+    })
       .then((data) => data.json())
       .then((response) => {
         const updatedPost = response[0] as Post;
@@ -99,13 +95,10 @@ export const usePostsReducer = () => {
 
   const deletePost = async (uuid: string) => {
     dispatch({ type: "posts/SET_IS_LOADING", payload: { isLoading: true } });
-    fetch(
-      `${GLOBAL.API_URL}/users/94b660e2-e0f7-4419-8eee-3033ba6010c1/post/${uuid}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    )
+    fetch(`${GLOBAL.API_URL}/users/${authUser?.uuid}/post/${uuid}`, {
+      method: "DELETE",
+      credentials: "include",
+    })
       .then(() => {
         const newPosts = posts.filter((post) => post.uuid !== uuid);
         dispatch({

@@ -1,12 +1,17 @@
 import usePosts from "../../hooks/usePosts.hook";
 
-export function PostAdd() {
+export function PostAdd({
+  setShowAddPost,
+}: {
+  setShowAddPost: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { createPost } = usePosts();
 
-  const handleCreatePost = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    createPost(formData);
+    await createPost(formData);
+    setShowAddPost(false);
   };
 
   return (

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Comment } from "../../types";
+import useAuth from "../../hooks/useAuth.hook";
 
 export function PostCommentsBody({
   comment,
@@ -13,6 +14,7 @@ export function PostCommentsBody({
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment);
+  const { authUser } = useAuth();
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -62,19 +64,21 @@ export function PostCommentsBody({
         <p>{comment.content}</p>
       )}
       <div>
-        {isEditing ? (
-          <>
-            <button onClick={handleToggleEditPostComment}>Cancel</button>
-            <button onClick={handleClickSaveEditComment}>Save</button>
-          </>
-        ) : (
-          <>
-            <button onClick={handleToggleEditPostComment}>Edit</button>
-            <button onClick={handleDeletePostComment(comment.uuid)}>
-              Delete
-            </button>
-          </>
-        )}
+        {authUser &&
+          authUser.uuid === comment.user.uuid &&
+          (isEditing ? (
+            <>
+              <button onClick={handleToggleEditPostComment}>Cancel</button>
+              <button onClick={handleClickSaveEditComment}>Save</button>
+            </>
+          ) : (
+            <>
+              <button onClick={handleToggleEditPostComment}>Edit</button>
+              <button onClick={handleDeletePostComment(comment.uuid)}>
+                Delete
+              </button>
+            </>
+          ))}
       </div>
     </>
   );

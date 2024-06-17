@@ -87,10 +87,12 @@ export async function httpUpdatePostComment(
 ): Promise<void> {
   try {
     const { postUuid, commentUuid } = req.params
+    const authUser = (req as any).authUser
     const comment = req.body
     const commentUpdated = await postCommentService.updatePostComment(
       postUuid,
       commentUuid,
+      authUser.uuid,
       comment
     )
     const commentUpdatedDTO = plainToInstance(CommentDTO, commentUpdated.raw, {
@@ -109,7 +111,12 @@ export async function httpDeletePostComment(
 ): Promise<void> {
   try {
     const { postUuid, commentUuid } = req.params
-    await postCommentService.deletePostComment(postUuid, commentUuid)
+    const authUser = (req as any).authUser
+    await postCommentService.deletePostComment(
+      postUuid,
+      commentUuid,
+      authUser.uuid
+    )
     res.status(HTTPStatusCode.NoContent).send()
   } catch (error) {
     next(error)

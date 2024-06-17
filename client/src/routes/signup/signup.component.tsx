@@ -20,7 +20,7 @@ export default function SignUp() {
       passwordConfirm: [],
     });
     setLoading(true);
-    await fetch(`${GLOBAL.API_URL}/auth/sigup`, {
+    await fetch(`${GLOBAL.API_URL}/auth/signup`, {
       method: "POST",
       body: formData,
     })
