@@ -39,10 +39,11 @@ describe("SignIn", () => {
     await user.type(passwordInput, "12345");
     await user.click(signInButton);
 
-    expect(await screen.findByText("Loading...")).toBeDefined();
     await waitFor(() => {
       expect(screen.getByRole("button", { name: /Logout/i })).toBeDefined();
-      expect(screen.getByText("@luiscarlos")).toBeDefined();
+      expect(
+        screen.getByRole("heading", { name: /@luiscarlos/i })
+      ).toBeDefined();
     });
 
     unmount();

@@ -37,7 +37,7 @@ export default function Navigation() {
                 <Link to="/">Posts</Link>
               </li>
               <li>
-                <span>@{authUser.username}</span>
+                <h6>@{authUser.username}</h6>
               </li>
               <li>
                 <button onClick={handleLogOut}>Logout</button>
