@@ -7,6 +7,12 @@ import fs from "fs";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./src/vitest-setup.ts",
+    include: ["**/*.test.tsx"],
+  },
   server: {
     https: {
       key: fs.readFileSync(path.resolve(__dirname, "ssl/server.key")),

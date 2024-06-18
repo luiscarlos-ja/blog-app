@@ -35,6 +35,9 @@ export default function SignIn() {
           signIn(data);
           navigate("/");
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

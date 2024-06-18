@@ -24,11 +24,11 @@ export default function SignUp() {
       method: "POST",
       body: formData,
     })
+      .then((response) => response.json())
       .then(async (response) => {
-        if (!response.ok) {
-          if (response.status === 422) {
-            const responseError = await response.json();
-            const errorMessages = JSON.parse(responseError.message);
+        if (response.statusCode) {
+          if (response.statusCode === 422) {
+            const errorMessages = JSON.parse(response.message);
             setError(errorMessages.fieldErrors);
           }
         } else {
@@ -63,23 +63,23 @@ export default function SignUp() {
       )}
       {error.username && (
         <p>
-          {error.username.map((err) => (
-            <span>{err}</span>
+          {error.username.map((err, idx) => (
+            <span key={idx}>{err}</span>
           ))}
         </p>
       )}
       {}
       {error && error.password && (
         <p>
-          {error.password.map((err) => (
-            <span>{err}</span>
+          {error.password.map((err, idx) => (
+            <span key={idx}>{err}</span>
           ))}
         </p>
       )}
       {error && error.passwordConfirm && (
         <p>
-          {error.passwordConfirm.map((err) => (
-            <span>{err}</span>
+          {error.passwordConfirm.map((err, idx) => (
+            <span key={idx}>{err}</span>
           ))}
         </p>
       )}
