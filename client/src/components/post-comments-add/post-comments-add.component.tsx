@@ -24,8 +24,8 @@ export function PostCommentsAdd({
       <button onClick={handleAddPostComment}>Add Comment</button>
       {showForm && (
         <form onSubmit={handleSubmitCreateCommentPost}>
-          <textarea name="content" />
-          <button type="submit">Add Comment</button>
+          <textarea name="content" placeholder="New Comment" />
+          <button type="submit">Save</button>
         </form>
       )}
     </section>
