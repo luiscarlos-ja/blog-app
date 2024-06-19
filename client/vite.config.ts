@@ -20,4 +20,7 @@ export default defineConfig({
     },
     port: 5173,
   },
+  build: {
+    outDir: "../server/public", // specify your custom directory here
+  },
 });

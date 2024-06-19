@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "BUILD_PATH=../server/public tsc && vite build",
-    "build-windows": "set BUILD_PATH=../server/public&& tsc && vite build",
+    "build": "tsc && vite build --emptyOutDir",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest --coverage"
@@ -38,5 +37,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vitest": "1.6.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   }
 }

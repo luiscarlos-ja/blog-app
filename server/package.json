@@ -4,10 +4,10 @@
   "description": "assessment",
   "main": "server.ts",
   "scripts": {
-    "start": "node dist/server.ts",
+    "start": "node dist/server.js",
     "start-ts": "ts-node src/server.ts",
     "start-dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
-    "build": "concurrently --kill-others \"tsc\" \"node dist/server.js\"",
+    "build": "tsc",
     "test": "jest --detectOpenHandles --coverage --verbose",
     "test-ci": "jest --detectOpenHandles --coverage --verbose --ci",
     "test-watch": "jest --detectOpenHandles --watchAll --coverage --verbose",

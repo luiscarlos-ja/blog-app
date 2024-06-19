@@ -10,8 +10,8 @@ import {
   errorHandler,
   typeOrmErrorHandler
 } from './middlewares/error.middleware'
-import { HTTPStatusCode } from './constants/http'
 import { rateLimiterMiddleware } from './middlewares/rateLimiter.middleware'
+import path from 'path'
 
 const app = express()
 
@@ -34,12 +34,13 @@ app.use(morgan('combined'))
 
 app.use(rateLimiterMiddleware)
 app.use(express.json())
+app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(cookieParser())
 
 app.use('/api/v1', api)
 
-app.all('*', (_, res) => {
-  res.status(HTTPStatusCode.NotFound).json({ message: 'Route not found' })
+app.get('/*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
 app.use(typeOrmErrorHandler)

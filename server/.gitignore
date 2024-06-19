@@ -10,3 +10,4 @@ postgres-data/
 cert.pem
 key.pem
 cert.crt
+/public
