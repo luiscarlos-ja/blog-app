@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const AddPostContainer = styled.section`
+export const AddPostContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

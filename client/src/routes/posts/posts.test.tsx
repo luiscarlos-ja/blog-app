@@ -66,6 +66,8 @@ describe("Posts", () => {
       name: /Create Post/i,
     });
 
+    await user.clear(nameInput);
+    await user.clear(contentInput);
     await user.type(nameInput, "New post in the test");
     await user.type(contentInput, "Content of the post in the test");
     await user.click(submitButton);
