@@ -22,7 +22,7 @@ describe("SignIn", () => {
         </AuthProvider>
       </BrowserRouter>
     );
-    expect(screen.getByRole("heading", { name: /Sign In/i })).toBeDefined();
+    expect(screen.getByRole("heading", { name: /Welcome/i })).toBeDefined();
     expect(screen.getByPlaceholderText("Username")).toBeDefined();
     expect(screen.getByPlaceholderText("Password")).toBeDefined();
     expect(screen.getByRole("button", { name: /Sign In/i })).toBeDefined();

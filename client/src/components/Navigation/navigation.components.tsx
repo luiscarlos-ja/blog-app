@@ -1,7 +1,18 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.hook";
 import { useState } from "react";
 import { GLOBAL } from "../../consts";
+import {
+  NavigationAuthContainer,
+  NavigationButton,
+  NavigationContainer,
+  NavigationLink,
+  NavigationList,
+  NavigationListItem,
+  NavigationLoading,
+  NavigatorLoggedContainer,
+  NavigatorSubContainer,
+} from "./navigation.styles";
 
 export default function Navigation() {
   const { authUser, signOut } = useAuth();
@@ -28,33 +39,34 @@ export default function Navigation() {
 
   return (
     <>
-      <nav>
-        <ul>
-          {isLoading && <li>Loading...</li>}
+      <NavigationContainer>
+        <NavigationList>
+          {isLoading && <NavigationLoading>Loading...</NavigationLoading>}
           {authUser ? (
-            <>
-              <li>
-                <Link to="/">Posts</Link>
-              </li>
-              <li>
-                <h6>@{authUser.username}</h6>
-              </li>
-              <li>
-                <button onClick={handleLogOut}>Logout</button>
-              </li>
-            </>
+            <NavigatorLoggedContainer>
+              <NavigatorSubContainer>
+                <NavigationListItem>
+                  <h5>@{authUser.username}</h5>
+                </NavigationListItem>
+                <NavigationListItem>
+                  <NavigationButton onClick={handleLogOut}>
+                    Logout
+                  </NavigationButton>
+                </NavigationListItem>
+              </NavigatorSubContainer>
+            </NavigatorLoggedContainer>
           ) : (
-            <>
-              <li>
-                <Link to="/signIn">SigIn</Link>
-              </li>
-              <li>
-                <Link to="/signUp">SignUp</Link>
-              </li>
-            </>
+            <NavigationAuthContainer>
+              <NavigationListItem>
+                <NavigationLink to="/signIn">SigIn</NavigationLink>
+              </NavigationListItem>
+              <NavigationListItem>
+                <NavigationLink to="/signUp">SignUp</NavigationLink>
+              </NavigationListItem>
+            </NavigationAuthContainer>
           )}
-        </ul>
-      </nav>
+        </NavigationList>
+      </NavigationContainer>
       <Outlet />
     </>
   );

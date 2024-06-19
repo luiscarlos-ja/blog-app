@@ -2,6 +2,15 @@ import { useState } from "react";
 import { GLOBAL } from "../../consts";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.hook";
+import {
+  SignInButton,
+  SignInContainer,
+  SignInError,
+  SignInForm,
+  SignInInput,
+  SignInLoading,
+  SignInTitle,
+} from "./signin.styles";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -42,28 +51,28 @@ export default function SignIn() {
   };
 
   return (
-    <div>
-      <h1>Sign In</h1>
-      {loading && <p>Loading...</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
-        <button type="submit">Sign In</button>
-      </form>
+    <SignInContainer>
+      <SignInTitle>Welcome</SignInTitle>
+      {loading && <SignInLoading>Loading...</SignInLoading>}
+      <SignInForm onSubmit={handleSubmit}>
+        <SignInInput type="text" name="username" placeholder="Username" />
+        <SignInInput type="password" name="password" placeholder="Password" />
+        <SignInButton type="submit">Sign In</SignInButton>
+      </SignInForm>
       {error.username && (
-        <p>
+        <SignInError>
           {error.username.map((err, idx) => (
             <span key={idx}>{err}</span>
           ))}
-        </p>
+        </SignInError>
       )}
       {error.password && (
-        <p>
+        <SignInError>
           {error.password.map((err, idx) => (
             <span key={idx}>{err}</span>
           ))}
-        </p>
+        </SignInError>
       )}
-    </div>
+    </SignInContainer>
   );
 }

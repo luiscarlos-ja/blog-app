@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { GLOBAL } from "../../consts";
-import { Link } from "react-router-dom";
+import {
+  SignUpContainer,
+  SignUpLoading,
+  SignUpTitle,
+  SignUpError,
+  SignUpForm,
+  SignUpInput,
+  SignUpButton,
+  SignUpSuccess,
+  SignUpLink,
+  SignUpLinkText,
+} from "./signup.styles";
 
 export default function SignUp() {
   const [error, setError] = useState({
@@ -41,48 +52,48 @@ export default function SignUp() {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      {loading && <p>Loading...</p>}
+    <SignUpContainer>
+      <SignUpTitle>Sign Up</SignUpTitle>
+      {loading && <SignUpLoading>Loading...</SignUpLoading>}
       {success ? (
-        <div>
-          <p>Success! You are now signed up.</p>
-          <Link to="/">Go to Sing In</Link>
-        </div>
+        <SignUpSuccess>
+          <SignUpLinkText>Success! You are now signed up.</SignUpLinkText>
+          <SignUpLink to="/">Go to Sing In</SignUpLink>
+        </SignUpSuccess>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <input type="text" name="username" placeholder="Username" />
-          <input type="password" name="password" placeholder="Password" />
-          <input
+        <SignUpForm onSubmit={handleSubmit}>
+          <SignUpInput type="text" name="username" placeholder="Username" />
+          <SignUpInput type="password" name="password" placeholder="Password" />
+          <SignUpInput
             type="password"
             name="passwordConfirm"
             placeholder="Password Confirm"
           />
-          <button type="submit">Sign Up</button>
-        </form>
+          <SignUpButton type="submit">Sign Up</SignUpButton>
+        </SignUpForm>
       )}
       {error.username && (
-        <p>
+        <SignUpError>
           {error.username.map((err, idx) => (
             <span key={idx}>{err}</span>
           ))}
-        </p>
+        </SignUpError>
       )}
       {}
       {error && error.password && (
-        <p>
+        <SignUpError>
           {error.password.map((err, idx) => (
             <span key={idx}>{err}</span>
           ))}
-        </p>
+        </SignUpError>
       )}
       {error && error.passwordConfirm && (
-        <p>
+        <SignUpError>
           {error.passwordConfirm.map((err, idx) => (
             <span key={idx}>{err}</span>
           ))}
-        </p>
+        </SignUpError>
       )}
-    </div>
+    </SignUpContainer>
   );
 }
