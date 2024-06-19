@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Comment } from "../../types";
 import useAuth from "../../hooks/useAuth.hook";
+import {
+  PostCommentButton,
+  PostCommentContentDate,
+  PostCommentFooter,
+  PostCommentHeader,
+  PostCommentHeaderTitle,
+  PostCommentsEditTextarea,
+} from "./post-comments-body.styles";
 
 export function PostCommentsBody({
   comment,
@@ -50,12 +58,16 @@ export function PostCommentsBody({
 
   return (
     <>
-      <div>
-        <h3>@{comment.user.username}</h3>
-        <small>{new Date(comment.createdAt).toLocaleString()}</small>
-      </div>
+      <PostCommentHeader>
+        <PostCommentHeaderTitle>
+          @{comment.user.username}
+        </PostCommentHeaderTitle>
+        <PostCommentContentDate>
+          {new Date(comment.createdAt).toLocaleString()}
+        </PostCommentContentDate>
+      </PostCommentHeader>
       {isEditing ? (
-        <textarea
+        <PostCommentsEditTextarea
           name="content"
           value={editedComment.content}
           onChange={handleChangeCommentEdit}
@@ -63,23 +75,31 @@ export function PostCommentsBody({
       ) : (
         <p>{comment.content}</p>
       )}
-      <div>
+      <PostCommentFooter>
         {authUser &&
           authUser.uuid === comment.user.uuid &&
           (isEditing ? (
             <>
-              <button onClick={handleToggleEditPostComment}>Cancel</button>
-              <button onClick={handleClickSaveEditComment}>Save</button>
+              <PostCommentButton onClick={handleToggleEditPostComment}>
+                Cancel
+              </PostCommentButton>
+              <PostCommentButton onClick={handleClickSaveEditComment}>
+                Save
+              </PostCommentButton>
             </>
           ) : (
             <>
-              <button onClick={handleToggleEditPostComment}>Edit</button>
-              <button onClick={handleDeletePostComment(comment.uuid)}>
+              <PostCommentButton onClick={handleToggleEditPostComment}>
+                Edit
+              </PostCommentButton>
+              <PostCommentButton
+                onClick={handleDeletePostComment(comment.uuid)}
+              >
                 Delete
-              </button>
+              </PostCommentButton>
             </>
           ))}
-      </div>
+      </PostCommentFooter>
     </>
   );
 }

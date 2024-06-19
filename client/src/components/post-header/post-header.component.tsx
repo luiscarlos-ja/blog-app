@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { PostAdd } from "../post-add/post-add.component";
 import usePosts from "../../hooks/usePosts.hook";
-import { PostHeaderContainer, PostTitle } from "./post-header.styles";
+import {
+  AddPostButton,
+  PostHeaderContainer,
+  PostTitle,
+  PostHeader as PostHeaderStyles,
+} from "./post-header.styles";
 
 export function PostHeader() {
   const [showAddPost, setShowAddPost] = useState(false);
@@ -13,8 +18,12 @@ export function PostHeader() {
 
   return (
     <PostHeaderContainer>
-      <PostTitle>Posts</PostTitle>
-      {!isLoading && <button onClick={handleClickAddPost}>Add Post</button>}
+      <PostHeaderStyles>
+        <PostTitle>Posts</PostTitle>
+        {!isLoading && (
+          <AddPostButton onClick={handleClickAddPost}>Add Post</AddPostButton>
+        )}
+      </PostHeaderStyles>
       {showAddPost && <PostAdd setShowAddPost={setShowAddPost} />}
     </PostHeaderContainer>
   );

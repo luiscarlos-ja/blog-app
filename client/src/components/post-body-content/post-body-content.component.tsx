@@ -2,6 +2,18 @@ import { useState } from "react";
 import { Post } from "../../types";
 import usePosts from "../../hooks/usePosts.hook";
 import useAuth from "../../hooks/useAuth.hook";
+import {
+  PostBodyContentContainer,
+  PostButton,
+  PostCreatedAt,
+  PostCreatedBy,
+  PostFooter,
+  PostInfo,
+  PostInput,
+  PostName,
+  PostSubFooter,
+  PostTextArea,
+} from "./post-body-content.styles";
 
 export function PostBodyContent({
   post,
@@ -59,22 +71,26 @@ export function PostBodyContent({
 
   return (
     <>
-      <div>
+      <PostBodyContentContainer>
+        <PostInfo>
+          {showEditPost ? (
+            <PostInput
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={editedPost.name}
+              onChange={handleChangeName}
+            />
+          ) : (
+            <PostName>{post.name}</PostName>
+          )}
+          <PostCreatedBy>@{post.user.username}</PostCreatedBy>
+        </PostInfo>
+        <PostCreatedAt>
+          {new Date(post.createdAt).toLocaleString()}
+        </PostCreatedAt>
         {showEditPost ? (
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={editedPost.name}
-            onChange={handleChangeName}
-          />
-        ) : (
-          <h2>{post.name}</h2>
-        )}
-        <small>@{post.user.username}</small>
-        <small>created at {new Date(post.createdAt).toLocaleString()}</small>
-        {showEditPost ? (
-          <textarea
+          <PostTextArea
             name="content"
             placeholder="Content"
             value={editedPost.content}
@@ -83,23 +99,27 @@ export function PostBodyContent({
         ) : (
           <p>{post.content}</p>
         )}
-      </div>
-      <div>
-        <button onClick={handleToggleShowComments}>Comments</button>
-        {authUser &&
-          authUser.uuid === post.user.uuid &&
-          (showEditPost ? (
-            <>
-              <button onClick={handleClickEditPost}>Cancel</button>
-              <button onClick={handleClickSaveEditPost}>Save</button>
-            </>
-          ) : (
-            <>
-              <button onClick={handleClickEditPost}>Edit</button>
-              <button onClick={handleClickDeletePost(post.uuid)}>Delete</button>
-            </>
-          ))}
-      </div>
+      </PostBodyContentContainer>
+      <PostFooter>
+        <PostButton onClick={handleToggleShowComments}>Comments</PostButton>
+        <PostSubFooter>
+          {authUser &&
+            authUser.uuid === post.user.uuid &&
+            (showEditPost ? (
+              <>
+                <PostButton onClick={handleClickEditPost}>Cancel</PostButton>
+                <PostButton onClick={handleClickSaveEditPost}>Save</PostButton>
+              </>
+            ) : (
+              <>
+                <PostButton onClick={handleClickEditPost}>Edit</PostButton>
+                <PostButton onClick={handleClickDeletePost(post.uuid)}>
+                  Delete
+                </PostButton>
+              </>
+            ))}
+        </PostSubFooter>
+      </PostFooter>
     </>
   );
 }

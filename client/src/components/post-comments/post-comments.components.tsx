@@ -3,6 +3,12 @@ import { Post } from "../../types";
 import { useComments } from "../../hooks/useComments.hook";
 import { PostCommentsBody } from "../post-comments-body/post-comments-body.component";
 import { PostCommentsAdd } from "../post-comments-add/post-comments-add.component";
+import {
+  PostCommentsContainer,
+  PostCommentsList,
+  PostCommentsListItem,
+  PostCommentsLoading,
+} from "./post-comments.styles";
 
 export function PostComments({ post }: { post: Post }) {
   const {
@@ -20,23 +26,23 @@ export function PostComments({ post }: { post: Post }) {
   }, []);
 
   if (isLoading) {
-    return <p>Loading comments...</p>;
+    return <PostCommentsLoading>Loading comments...</PostCommentsLoading>;
   }
 
   return (
-    <section>
+    <PostCommentsContainer>
       <PostCommentsAdd createPostComment={createPostComment} />
-      <ul>
+      <PostCommentsList>
         {comments.map((comment) => (
-          <li key={comment.uuid}>
+          <PostCommentsListItem key={comment.uuid}>
             <PostCommentsBody
               comment={comment}
               editPostComment={editPostComment}
               deletePostComment={deletePostComment}
             />
-          </li>
+          </PostCommentsListItem>
         ))}
-      </ul>
-    </section>
+      </PostCommentsList>
+    </PostCommentsContainer>
   );
 }

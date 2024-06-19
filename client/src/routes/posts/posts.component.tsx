@@ -1,7 +1,13 @@
 import usePosts from "../../hooks/usePosts.hook";
 import { PostHeader } from "../../components/post-header/post-header.component";
 import { PostBody } from "../../components/post-body/post-body-component";
-import { PostsContainer } from "./posts.styles";
+import {
+  PostList,
+  PostListContent,
+  PostListItem,
+  PostLoading,
+  PostsContainer,
+} from "./posts.styles";
 
 export default function Posts() {
   const { posts, isLoading } = usePosts();
@@ -10,17 +16,17 @@ export default function Posts() {
     <PostsContainer>
       <PostHeader />
       {isLoading ? (
-        <h1>Loading...</h1>
+        <PostLoading>Loading...</PostLoading>
       ) : (
-        <>
-          <ul>
+        <PostListContent>
+          <PostList>
             {posts.map((post) => (
-              <li key={post.uuid}>
+              <PostListItem key={post.uuid}>
                 <PostBody post={post} />
-              </li>
+              </PostListItem>
             ))}
-          </ul>
-        </>
+          </PostList>
+        </PostListContent>
       )}
     </PostsContainer>
   );

@@ -1,4 +1,11 @@
 import usePosts from "../../hooks/usePosts.hook";
+import {
+  AddPostButton,
+  AddPostContainer,
+  AddPostHeader,
+  AddPostInput,
+  AddPostTextArea,
+} from "./post-add.styled";
 
 export function PostAdd({
   setShowAddPost,
@@ -15,10 +22,13 @@ export function PostAdd({
   };
 
   return (
-    <form onSubmit={handleCreatePost}>
-      <input type="text" name="name" placeholder="Name" />
-      <input type="text" name="content" placeholder="Content" />
-      <button type="submit">Create Post</button>
-    </form>
+    <>
+      <AddPostHeader>Enter Post data</AddPostHeader>
+      <AddPostContainer onSubmit={handleCreatePost}>
+        <AddPostInput type="text" name="name" placeholder="Name" />
+        <AddPostTextArea rows={6} name="content" placeholder="Content" />
+        <AddPostButton type="submit">Create Post</AddPostButton>
+      </AddPostContainer>
+    </>
   );
 }

@@ -1,4 +1,11 @@
 import { useState } from "react";
+import {
+  PostCommentsAddButton,
+  PostCommentsAddContainer,
+  PostCommentsAddForm,
+  PostCommentsAddSubmitButton,
+  PostCommentsAddTextarea,
+} from "./post-comments.styles";
 
 export function PostCommentsAdd({
   createPostComment,
@@ -20,14 +27,22 @@ export function PostCommentsAdd({
   };
 
   return (
-    <section>
-      <button onClick={handleAddPostComment}>Add Comment</button>
+    <PostCommentsAddContainer>
+      <PostCommentsAddButton onClick={handleAddPostComment}>
+        Add Comment
+      </PostCommentsAddButton>
       {showForm && (
-        <form onSubmit={handleSubmitCreateCommentPost}>
-          <textarea name="content" placeholder="New Comment" />
-          <button type="submit">Save</button>
-        </form>
+        <PostCommentsAddForm onSubmit={handleSubmitCreateCommentPost}>
+          <PostCommentsAddTextarea
+            rows={6}
+            name="content"
+            placeholder="New Comment"
+          />
+          <PostCommentsAddSubmitButton type="submit">
+            Save
+          </PostCommentsAddSubmitButton>
+        </PostCommentsAddForm>
       )}
-    </section>
+    </PostCommentsAddContainer>
   );
 }
