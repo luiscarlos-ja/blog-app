@@ -14,6 +14,6 @@ export const CONFIG = {
   PORT: process.env.PORT ?? '8000',
   RATE_LIMIT_POINTS: process.env.RATE_LIMIT_POINTS ?? '10',
   RATE_LIMIT_DURATION: process.env.RATE_LIMIT_DURATION ?? '1',
-  BASE_URL: process.env.BASE_URL ?? 'https://localhost:8000/api/v1',
+  BASE_URL: process.env.BASE_URL ?? 'api/v1',
   JWT_TOKEN: process.env.JWT_SECRET ?? 'secret'
 }

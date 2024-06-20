@@ -4,9 +4,27 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
 
+const noAttr = () => {
+  return {
+    name: "no-attribute",
+    transformIndexHtml(html) {
+      return html.replace(`type="module" crossorigin`, `defer="defer"`);
+    },
+  };
+};
+
+const noAttrCss = () => {
+  return {
+    name: "no-attribute",
+    transformIndexHtml(html) {
+      return html.replace(`rel="stylesheet" crossorigin`, `rel="stylesheet"`);
+    },
+  };
+};
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), noAttr(), noAttrCss()],
   test: {
     environment: "jsdom",
     globals: true,

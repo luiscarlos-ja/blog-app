@@ -17,7 +17,11 @@ const app = express()
 
 app.use(helmet())
 
-const whitelist = ['https://localhost:8000', 'https://localhost:5173']
+const whitelist = [
+  'https://localhost:8000',
+  'https://localhost:5173',
+  'https://3.232.56.58:8010'
+]
 app.use(
   cors({
     origin: function (origin, callback) {

@@ -9,6 +9,7 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
+  console.log(_err)
   res.status(HTTPStatusCode.InternalServerError).json('Internal Server Error')
 }
 
