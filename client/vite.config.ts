@@ -7,7 +7,7 @@ import fs from "fs";
 const noAttr = () => {
   return {
     name: "no-attribute",
-    transformIndexHtml(html) {
+    transformIndexHtml(html: string) {
       return html.replace(`type="module" crossorigin`, `defer="defer"`);
     },
   };
@@ -16,7 +16,7 @@ const noAttr = () => {
 const noAttrCss = () => {
   return {
     name: "no-attribute",
-    transformIndexHtml(html) {
+    transformIndexHtml(html: string) {
       return html.replace(`rel="stylesheet" crossorigin`, `rel="stylesheet"`);
     },
   };
