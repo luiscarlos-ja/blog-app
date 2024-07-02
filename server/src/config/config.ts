@@ -7,7 +7,7 @@ export const CONFIG = {
   POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD ?? '',
   POSTGRES_DB: process.env.POSTGRES_DB ?? '',
   POSTGRES_TEST_TEMPLATE_DB:
-    process.env.POSTGRES_TEST_TEMPLATE_DB ?? 'solvedex',
+    process.env.POSTGRES_TEST_TEMPLATE_DB ?? 'blogpost_test_template',
   POSTGRES_HOST: process.env.POSTGRES_HOST ?? 'localhost',
   POSTGRES_PORT: process.env.POSTGRES_PORT ?? '5432',
   NODE_ENV: process.env.NODE_ENV ?? 'development',

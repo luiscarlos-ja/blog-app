@@ -19,8 +19,8 @@ RUN initdb /var/lib/postgresql/data
 
 # Create a database
 RUN pg_ctl -D /var/lib/postgresql/data start && \
-    psql --command "CREATE USER luiscarlos_ja WITH SUPERUSER PASSWORD 'solvedex';" && \
-    createdb -O luiscarlos_ja solvedex && \
+    psql --command "CREATE USER luiscarlos_ja WITH SUPERUSER PASSWORD 'luiscarlos_ja';" && \
+    createdb -O luiscarlos_ja luiscarlos_ja && \
     pg_ctl -D /var/lib/postgresql/data stop
 
 USER root
